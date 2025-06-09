@@ -1,0 +1,28 @@
+.bodyValue {
+    display: flex;                   /* Imposta un layout Flexbox */
+    flex-wrap: wrap;                 /* Permetti il wrap per schermi piccoli */
+    justify-content: center;         /* Allinea le card al centro orizzontalmente */
+    align-items: center;             /* Allinea le card al centro verticalmente */
+    padding: 20px 10rem;             /* Margini interni per evitare che tocchino i bordi */
+    box-sizing: border-box;          /* Include padding nel calcolo delle dimensioni */
+}
+
+@media screen and (max-width: 1333px) {
+    .bodyValue {
+        display: flex;                   /* Imposta un layout Flexbox */
+        flex-wrap: wrap;                 /* Permetti il wrap per schermi piccoli */
+        justify-content: center;         /* Allinea le card al centro orizzontalmente */
+        align-items: center;             /* Allinea le card al centro verticalmente */
+        padding: 20px 3rem !important;             /* Margini interni per evitare che tocchino i bordi */
+    }
+}
+
+@media screen and (max-width: 820px) {
+    .bodyValue {
+        display: flex;                   /* Imposta un layout Flexbox */
+        flex-wrap: wrap;                 /* Permetti il wrap per schermi piccoli */
+        justify-content: center;         /* Allinea le card al centro orizzontalmente */
+        align-items: center;             /* Allinea le card al centro verticalmente */
+        padding: 20px 1rem !important;             /* Margini interni per evitare che tocchino i bordi */
+    }
+}

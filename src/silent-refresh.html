@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Silent Refresh</title>
+</head>
+<body>
+    <script>
+        // Questo script gestisce il silent refresh dei token
+        // Deve essere eseguito in un iframe nascosto per rinnovare i token automaticamente
+        
+        try {
+            // Ottieni il fragment dall'URL che contiene i nuovi token
+            const hash = window.location.hash;
+            
+            if (hash) {
+                // Invia i dati al parent window (la tua applicazione Angular)
+                parent.postMessage(hash, window.location.origin);
+            } else {
+                // Se non c'è hash, potrebbe essere un errore
+                console.warn('Silent refresh: No hash found in URL');
+                parent.postMessage('error=silent_refresh_failed', window.location.origin);
+            }
+        } catch (error) {
+            console.error('Error during silent refresh:', error);
+            parent.postMessage('error=silent_refresh_exception', window.location.origin);
+        }
+    </script>
+</body>
+</html>

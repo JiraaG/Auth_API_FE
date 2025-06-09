@@ -1,1 +1,38 @@
 /* You can add global styles to this file, and also import other style files */
+// @import "primeng/resources/themes/lara-light-blue/theme.css";
+// @import "primeng/resources/primeng.css";
+// @import "primeicons/primeicons.css";
+// @import "primeng/resources/primeng.min.css";
+
+// @import "~@primeng/themes/lara-light-blue/theme.css";
+// @import "~primeng/resources/primeng.min.css";
+// @import "~primeicons/primeicons.css";
+
+/* You can add global styles to this file, and also import other style files */
+/*===== GOOGLE FONTS =====*/
+// @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap');
+
+/*===== VARIABLES CSS =====*/
+:root{
+    background-color: var(--white-color);
+    
+    --header-height: 3rem;
+    --nav-width: 68px;
+
+    /*===== Colors =====*/
+    --first-color: #4723D9;
+    --first-color-light: #AFA5D9;
+    --white-color: #F7F6FB;
+
+    /*===== Font and typography =====*/
+    --body-font: 'Nunito', sans-serif;
+    --normal-font-size: 1rem;
+  
+    /*===== z index =====*/
+    --z-fixed: 100;
+}
+
+/*===== BASE =====*/
+*,::before,::after{
+    box-sizing: border-box;
+}

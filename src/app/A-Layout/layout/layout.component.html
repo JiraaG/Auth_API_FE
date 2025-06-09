@@ -1,0 +1,92 @@
+<p-toast></p-toast>
+
+<div id="body-pd" class="sidebar">
+    <header class="header" id="header">
+        <div class="header__toggle">
+            <!-- <i class='bx bx-menu' id="header-toggle"></i> -->
+            <a id="header-toggle" (click)="onClickSideBar()" style="font-size: 25px;">
+                <i class="fa-solid fa-bars"></i>
+            </a>
+            <!-- <button id="header-toggle" (click)="onClick()"></button> -->
+        </div>
+
+        <!-- <div>
+            <p-breadcrumb [model]="breadcrumbs"></p-breadcrumb>
+        </div> -->
+
+        <div class="flex justify-content-center" style="cursor: pointer;">
+            <a id="user-toggle-menu" (click)="menu.toggle($event)" style="font-size: 25px;">
+                <i class="fa-solid fa-user"></i>
+            </a>
+            <p-menu #menu [model]="items" [popup]="true" />
+        </div>
+
+        <!-- <div class="card flex justify-content-center">
+            <p-button (onClick)="toggleMenu($event)" icon="pi pi-ellipsis-v"/>
+            <p-menu #menu [model]="items" [popup]="true" />
+        </div> -->
+
+        <!-- <div class="btn-group dropleft">
+            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Dropleft
+            </button>
+            <div class="dropdown-menu">
+            </div>
+          </div> -->
+    </header>
+
+    <div class="l-navbar" id="nav-bar">
+        <nav class="nav">
+            <div>
+                <a class="nav__logo" [routerLink]="['/home']" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{ exact: true }">
+                    <i class="fa fa-home nav__icon"></i>
+                    <span class="nav__logo-name">MANAGE</span>
+                </a>
+
+                <div class="nav__list">
+                    <a class="nav__link" [routerLink]="['/warehouse']" [routerLinkActive]="['active']" >
+                        <i class="fa fa-table nav__icon"></i>
+                        <span class="nav__name">Magazzino</span>
+                    </a>
+                </div>
+
+                <!-- Manage con dropdown -->
+                <!-- <div class="nav__list">
+                    <a href="#" class="nav__link nav__dropdown"
+                        (click)="toggleManage(); $event.preventDefault()"
+                        [class.active]="manageOpen">
+                        <i class="fa fa-table nav__icon"></i>
+                        <span class="nav__name">Magazzino</span>
+                        <i class="fa nav__dd-icon"
+                        [ngClass]="manageOpen ? 'fa-chevron-up' : 'fa-chevron-down'">
+                        </i>
+                    </a>
+                    <div *ngIf="manageOpen" class="nav__sublist">
+                        <a class="nav__sublink"
+                            [routerLink]="['/warehouse']"
+                            routerLinkActive="active">
+                            <i class="fa fa-table nav__subicon"></i>
+                            <span class="nav__subname">Risorse</span>
+                        </a>
+                        <a class="nav__sublink"
+                            [routerLink]="['/chart-wh']"
+                            routerLinkActive="active">
+                            <i class="fa fa-chart-pie nav__subicon"></i>
+                            <span class="nav__subname">Grafici</span>
+                        </a>
+                    </div>
+                </div> -->
+                
+            </div>
+
+            <a (click)="logout()" class="nav__link">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span class="nav__name">Log Out</span>
+            </a>
+        </nav>
+    </div>
+
+    <div style="margin-top: 1rem;">
+        <router-outlet />
+    </div>
+</div>
