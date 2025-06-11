@@ -1,0 +1,103 @@
+<p-toast />
+<p-confirmdialog />
+
+<!-- Pulsante "Crea magazzino" centrato -->
+<div class="text-center mt-4 mb-4">
+  <p-button label="Magazzino" (onClick)="showCreateDialog()" class="p-button-lg" icon="pi pi-plus"></p-button>
+</div>
+
+<!-- Dialog per inserimento/modifica dei dati -->
+<p-dialog header="{{ isEdit ? 'Modifica' : 'Crea' }} magazzino" 
+              [(visible)]="displayDialog" [modal]="true" [closable]="true" [style]="{'width':'800px', 'min-width':'300px', 'min-height':'450px'}">
+    <form [formGroup]="warehousesForm">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-6 col-sm-12 mb-3">
+                    <label for="nomeMagazzino">Nome Magazzino</label>
+                    <input id="nomeMagazzino" type="text" class="form-control" formControlName="Name" />
+                </div>
+                <div class="col-md-6 col-sm-12 mb-3">
+                    <label for="descrizioneMagazzino">Descrizione Magazzino</label>
+                    <textarea id="descrizioneMagazzino" class="form-control" formControlName="Description" rows="3"></textarea>
+                </div>
+                <div class="col-md-6 col-sm-12 mb-3">
+                    <label for="dataCreazione">Data Creazione</label>
+                    <input id="dataCreazione" type="text" class="form-control" formControlName="CreationDate" readonly />
+                </div>
+                <div class="col-md-6 col-sm-12 mb-3">
+                    <label for="dataModifica">Data Modifica</label>
+                    <input id="dataModifica" type="text" class="form-control" formControlName="ModifiedDate" readonly />
+                </div>
+            </div>
+        </div>
+    </form>
+    <ng-template #footer >
+        <div class="row w-100">
+            <div class="col-lg-6 col-md-6 col-sm-12 text-center mb-2">
+                <p-button label="{{ isEdit ? 'Modifica' : 'Crea' }} magazzino" [disabled]="warehousesForm.invalid" (onClick)="onSave()" icon="pi pi-save"></p-button>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 text-center mb-2">
+                <p-button label="Chiudi schermata" (onClick)="displayDialog = false;" severity="info" icon="pi pi-times"></p-button>
+            </div>
+        </div>
+    </ng-template>
+</p-dialog>
+
+<!-- Sezione contenitore per la card creata -->
+<div class="row">
+    <div class="bodyValue d-flex justify-content-between flex-wrap">
+
+        <ng-container *ngFor="let warehouse of warehouses">
+            <div class="col-lg-6 col-md-6 col-sm-12 text-center mt-2 mb-4">
+                <p-card [header]="warehouse.name">
+                    <!-- Se volessi aggiungere una sezione header con immagine, puoi decommentare questa parte -->
+                    
+                    <!-- <ng-template pTemplate="header">
+                        <img alt="Card" src="https://primefaces.org/cdn/primeng/images/card-ng.jpg" />
+                    </ng-template> -->
+                   
+                    <ng-template pTemplate="body">
+                        <p>
+                            {{ warehouse.description }}
+                        </p>
+                    </ng-template>
+
+                    <ng-template pTemplate="footer">
+
+                        <div class="row">
+                            <div class="col-lg-4 col-md-12 col-sm-12 text-center mb-2">
+                                <p-button 
+                                    [label]="isLargeScreen ? 'Apri' : 'Apri magazzino'"
+                                    (onClick)="onGoToMagazzino(warehouse.id)" 
+                                    icon="pi pi-check"
+                                    styleClass="w-100">
+                                </p-button>
+                            </div>
+                            <div class="col-lg-4 col-md-12 col-sm-12 text-center mb-2">
+                                <p-button 
+                                    [label]="isLargeScreen ? 'Modifica' : 'Modifica magazzino'" 
+                                    (onClick)="editWarehouse(warehouse)" 
+                                    severity="info" 
+                                    icon="pi pi-pencil"
+                                    styleClass="w-100">
+                                </p-button>
+                            </div>
+                            <div class="col-lg-4 col-md-12 col-sm-12 text-center mb-2">
+                                <p-button 
+                                    [label]="isLargeScreen ? 'Elimina' : 'Elimina magazzino'"
+                                    (onClick)="deleteWarehouse(warehouse.id, $event)" 
+                                    severity="danger" 
+                                    icon="pi pi-ban"
+                                    styleClass="w-100">
+                                </p-button>
+                            </div>
+                        </div>
+
+                    </ng-template>
+
+                </p-card>
+            </div>
+        </ng-container>
+
+    </div>
+</div>
