@@ -1,10 +1,22 @@
-<p-toast />
+<p-toast position="top-center" />
 <p-confirmdialog />
 
-<!-- Pulsante "Crea magazzino" centrato -->
-<div class="text-center mt-4 mb-4">
-  <p-button label="Magazzino" (onClick)="showCreateDialog()" class="p-button-lg" icon="pi pi-plus"></p-button>
-</div>
+<p-toolbar>
+
+    <!-- Pulsante "Crea magazzino" centrato -->
+    <!-- <div class="text-center mt-4 mb-4">
+    <p-button label="Magazzino" (onClick)="showCreateDialog()" class="p-button-lg" icon="pi pi-plus"></p-button>
+    </div> -->
+
+    <ng-template #start>
+        <p-button text label="Indietro" (onClick)="goBehind()" icon="pi pi-arrow-left" severity="secondary"></p-button>
+    </ng-template>
+
+    <ng-template #center>
+        <p-button label="Magazzino" (onClick)="showCreateDialog()" icon="pi pi-plus" ></p-button>
+    </ng-template>
+    
+</p-toolbar>
 
 <!-- Dialog per inserimento/modifica dei dati -->
 <p-dialog header="{{ isEdit ? 'Modifica' : 'Crea' }} magazzino" 
@@ -34,10 +46,10 @@
     <ng-template #footer >
         <div class="row w-100">
             <div class="col-lg-6 col-md-6 col-sm-12 text-center mb-2">
-                <p-button label="{{ isEdit ? 'Modifica' : 'Crea' }} magazzino" [disabled]="warehousesForm.invalid" (onClick)="onSave()" icon="pi pi-save"></p-button>
+                <p-button text label="{{ isEdit ? 'Modifica' : 'Crea' }} magazzino" [disabled]="warehousesForm.invalid" (onClick)="onSave()" icon="pi pi-save"></p-button>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-12 text-center mb-2">
-                <p-button label="Chiudi schermata" (onClick)="displayDialog = false;" severity="info" icon="pi pi-times"></p-button>
+                <p-button text label="Chiudi schermata" (onClick)="displayDialog = false;" severity="info" icon="pi pi-times"></p-button>
             </div>
         </div>
     </ng-template>

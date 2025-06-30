@@ -14,6 +14,7 @@ import { Warehouse } from '../../../A-Model/warehouse';
 import { WarehouseService } from '../../../A-Service/warehouse.service';
 import { ToastModule } from 'primeng/toast';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { ToolbarModule } from 'primeng/toolbar';
 
 @Component({
   selector: 'app-warehouse-manage',
@@ -27,7 +28,8 @@ import { ConfirmationService, MessageService } from 'primeng/api';
     CommonModule,
     ReactiveFormsModule,
     ToastModule,
-    ConfirmDialogModule
+    ConfirmDialogModule,
+    ToolbarModule
   ],
   providers: [MessageService, ConfirmationService],
   templateUrl: './warehouse-manage.component.html',
@@ -37,7 +39,7 @@ export class WarehouseManageComponent implements OnInit {
 
   displayDialog: boolean = false; 
   isEdit: boolean = false;
-  isLargeScreen: boolean = false;;
+  isLargeScreen: boolean = false;
 
   // Utilizziamo un oggetto parziale per gestire il form in fase di inserimento/modifica
   warehousesForm!: FormGroup;
@@ -85,9 +87,14 @@ export class WarehouseManageComponent implements OnInit {
 
   loadWarehouses(): void {
     this.warehouseService.getAll().subscribe({
-      next: data => { this.warehouses = data; this.messageService.add({ severity: 'success', summary: 'Caricamento dati', detail: 'Dati caricati con successo!', life: 3000 }); },
+      next: data => { this.warehouses = data; this.messageService.add({ severity: 'success', summary: 'Caricamento dati', detail: 'Dati caricati con successo!', life: 2000 }); },
       error: err => { this.messageService.add({ severity: 'error', summary: 'Caricamento dati', detail: 'Errore durante il caricamento dei dati. Errore:\n' + err, sticky: true });}
     });
+  }
+
+  goBehind(): void {
+    // Naviga indietro alla pagina precedente
+    this.router.navigate(['../'], { relativeTo: this.route });
   }
 
   showCreateDialog(): void {
@@ -116,13 +123,13 @@ export class WarehouseManageComponent implements OnInit {
     
     if (this.isEdit && this.currentId !== null) {
       this.warehouseService.update(this.currentId, formValue).subscribe({
-        next: () => { this.loadWarehouses(); this.messageService.add({ severity: 'success', summary: 'Aggiornamento magazzino', detail: 'Magazzino aggiornato con successo!', life: 3000 }); },
+        next: () => { this.loadWarehouses(); this.messageService.add({ severity: 'success', summary: 'Aggiornamento magazzino', detail: 'Magazzino aggiornato con successo!', life: 2000 }); },
         error: err => { this.messageService.add({ severity: 'error', summary: 'Aggiornamento magazzino', detail: 'Errore durante l\'aggiornamento del magazzino. Errore:\n' + err, sticky: true }); },
         complete: () => this.displayDialog = false
       });
     } else {
       this.warehouseService.create(formValue).subscribe({
-        next: () => { this.loadWarehouses(), this.messageService.add({ severity: 'success', summary: 'Creazione magazzino', detail: 'Magazzino creato con successo!', life: 3000 }); },
+        next: () => { this.loadWarehouses(), this.messageService.add({ severity: 'success', summary: 'Creazione magazzino', detail: 'Magazzino creato con successo!', life: 2000 }); },
         error: err => { this.messageService.add({ severity: 'error', summary: 'Creazione magazzino', detail: 'Errore durante la creazione del magazzino. Errore:\n' + err, sticky: true }); },
         complete: () => this.displayDialog = false
       });
@@ -133,14 +140,14 @@ export class WarehouseManageComponent implements OnInit {
 
     this.confirmationService.confirm({
       target: event.target as EventTarget,
-      message: 'Sei sicuro di voler eliminare questo magazzino? Questa azione non può essere annullata.',
+      message: 'Sei sicuro di voler eliminare questo magazzino? Questa azione è irreversibile e cancellerà tutti i dati associati dei prodotti e degli ordini.',
       header: 'Elimina magazzino',
       icon: 'pi pi-exclamation-triangle',
       rejectLabel: 'Annulla',
       acceptButtonProps: {
           label: 'Elimina',
           icon: 'pi pi-ban',
-          severity: 'danger',
+          severity: 'trash',
       },
       rejectButtonProps: {
           label: 'Annulla',
@@ -151,7 +158,7 @@ export class WarehouseManageComponent implements OnInit {
 
       accept: () => {
         this.warehouseService.delete(id).subscribe({
-          next: () => { this.loadWarehouses(), this.messageService.add({ severity: 'success', summary: 'Eliminazione magazzino', detail: 'Magazzino eliminato con successo!', life: 3000 }); },
+          next: () => { this.loadWarehouses(), this.messageService.add({ severity: 'success', summary: 'Eliminazione magazzino', detail: 'Magazzino eliminato con successo!', life: 2000 }); },
           error: err => { this.messageService.add({ severity: 'error', summary: 'Eliminazione magazzino', detail: 'Errore durante l\'eliminazione del magazzino. Errore:\n' + err, sticky: true }); },
           complete: () => this.displayDialog = false
         });

@@ -1,0 +1,74 @@
+<p-toast></p-toast>
+<p-confirmdialog />
+
+<h1 class="text-center" style="margin-bottom: 1.5rem;">{{ !isEditOrder ? 'Modifica ordine' : 'Creazione ordine' }}</h1>
+
+<form [formGroup]="orderForm" class="row mb-5">
+
+    <div class="col-lg-12 col-md-12 col-sm-12 mb-3">
+        <label class="block font-bold mb-2" for="customer">Cliente</label>
+        <input id="customer" pInputText class="form-control" formControlName="customer" />
+    </div>
+
+    <!-- Suddividere in 2 campi, il primo input number per la scelta della Quantità
+    la seconda input disabilitato per mostrare quante unità sono disponibili -->
+    <div class="col-lg-3 col-md-4 col-sm-12 mb-3">
+        <label class="block font-bold mb-2" for="quantity">Quantità</label>
+        <p-inputnumber styleClass="w-100" id="quantity" formControlName="quantity" [max]="totalQuantity"></p-inputnumber>
+    </div>
+
+    <!-- Impostare l'unità di misura in base al valore presente nel magazzino 
+            Campo readonly, non è possibile modificarlo nell'ordine, ma solo nel prodotto associato -->
+    <div class="col-lg-3 col-md-4 col-sm-12 mb-3">
+        <label class="block font-bold mb-2" for="quantityUnit">Unità di misura</label>
+        <input class="form-control" formControlName="quantityUnit" pInputText readonly="true" [disabled]="true"/>
+    </div>
+
+    <div class="col-lg-3 col-md-6 col-sm-12 mb-3">
+        <label class="block font-bold mb-2" for="unitPrice">Prezzo unità</label>
+        <p-inputnumber styleClass="w-100" id="unitPrice" formControlName="unitPrice" mode="currency" [currency]="currency || 'EUR'"></p-inputnumber>
+    </div>
+
+    <!-- quantity * unitPrice - impostare readonly e fare solo il calcolo -->
+    <div class="col-lg-3 col-md-6 col-sm-12 mb-3">
+        <label class="block font-bold mb-2" for="totalPrice">Prezzo totale</label>
+        <p-inputnumber styleClass="w-100" id="totalPrice" formControlName="totalPrice" mode="currency" [currency]="currency || 'EUR'" readonly="true" [disabled]="true"></p-inputnumber>
+    </div>
+
+    <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
+        <label class="block font-bold mb-2" for="orderDate">Data ordine</label>
+        <p-datepicker styleClass="w-100" id="orderDate" formControlName="orderDate" [showTime]="true" hourFormat="24" dateFormat="dd/mm/yy" [showIcon]="true" ></p-datepicker>
+    </div>
+
+    <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
+        <label class="block font-bold mb-2" for="createdAt">Creato il</label>
+        <p-datepicker styleClass="w-100" id="createdAt" formControlName="createdAt" [showTime]="true" hourFormat="24" dateFormat="dd/mm/yy" [showIcon]="true" ></p-datepicker>
+    </div>
+
+    <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
+        <label class="block font-bold mb-2" for="modifiedAt">Modificato il</label>
+        <p-datepicker styleClass="w-100" id="modifiedAt" formControlName="modifiedAt" [showTime]="true" hourFormat="24" dateFormat="dd/mm/yy" [showIcon]="true" ></p-datepicker>
+    </div>
+</form>
+
+<p-toolbar>
+    <ng-template pTemplate="start">
+        <p-button label="Indietro" (onClick)="onGoBack()" severity="info" icon="pi pi-arrow-left"></p-button>
+    </ng-template>
+    <ng-template pTemplate="center">
+        <p-button label="{{ isEditOrder ? 'Modifica' : 'Crea' }} ordine"
+                [disabled]="orderForm.invalid"
+                (onClick)="onSaveOrder()"
+                icon="pi pi-save">
+        </p-button>
+    </ng-template>
+    <ng-template pTemplate="end">
+        <p-button 
+                label="{{ isLargeScreen ? 'Elimina ordine' : 'Elimina' }}"
+                [disabled]="!isEditOrder"
+                (onClick)="onDeleteOrder()"
+                severity="danger"
+                icon="pi pi-trash">
+        </p-button>
+    </ng-template>
+</p-toolbar>

@@ -1,0 +1,114 @@
+<p-toast></p-toast>
+<p-confirmdialog />
+
+<h1 class="text-center" style="margin-bottom: 1.5rem;">{{ isEditProduct ? 'Modifica prodotto' : 'Creazione prodotto' }}</h1>
+
+<form [formGroup]="productForm" class="row mb-5">
+
+    <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
+        <label class="block font-bold mb-2" for="code">Codice</label>
+        <input id="code" pInputText class="form-control" formControlName="code" />
+    </div>
+    <div class="col-lg-6 col-md-12 col-sm-12 mb-3">
+        <label class="block font-bold mb-2" for="name">Nome</label>
+        <input id="name" pInputText class="form-control" formControlName="name" />
+    </div>
+
+    <div class="col-lg-12 col-md-12 col-sm-12 mb-3">
+        <label class="block font-bold mb-2" for="description">Descrizione</label>
+        <textarea id="description" pTextarea class="form-control" formControlName="description" rows="2"></textarea>
+    </div>
+    
+    <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
+        <label class="block font-bold mb-2" for="categoryId">Categoria</label>
+        <p-treeSelect
+            class="my-treeselect"
+            [options]="categoryTree"
+            formControlName="categoryId"
+            optionLabel="label"
+            optionValue="key"
+            placeholder="Seleziona categoria"
+            [filter]="true"
+            selectionMode="single">
+        </p-treeSelect>
+    </div>
+    <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
+        <label class="block font-bold mb-2" for="currency">Valuta</label>
+        <p-dropdown
+            formControlName="currency"
+            [options]="currencyValues"
+            optionLabel="label"
+            placeholder="Seleziona valuta"
+            optionValue="value"
+            class="w-100">
+        </p-dropdown>
+    </div>
+    <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
+        <label class="block font-bold mb-2" for="quantityUnit">Unità di misura</label>
+        <p-dropdown
+            formControlName="quantityUnit"
+            [options]="units"
+            optionLabel="label"
+            placeholder="Seleziona unità"
+            optionValue="value"
+            class="w-100">
+        </p-dropdown>
+    </div>
+
+    <div class="col-lg-3 col-md-6 col-sm-12 mb-3">
+        <label class="block font-bold mb-2" for="purchasePrice">Prezzo di acquisto</label>
+        <p-inputnumber class="w-100" id="purchasePrice" formControlName="purchasePrice" mode="currency" [currency]="productForm.get('currency')?.value || 'EUR'"></p-inputnumber>
+    </div>
+    <div class="col-lg-3 col-md-6 col-sm-12 mb-3">
+        <label class="block font-bold mb-2" for="purchaseDate">Data di acquisto</label>    
+        <p-datepicker styleClass="w-100" id="purchaseDate" formControlName="purchaseDate" [showTime]="true" hourFormat="24" dateFormat="dd/mm/yy" [showIcon]="true" ></p-datepicker>
+    </div>
+    <div class="col-lg-3 col-md-6 col-sm-12 mb-3">
+        <label class="block font-bold mb-2" for="saleOrdersPrice">Prezzo vendita prodotti</label>
+        <p-inputnumber class="w-100" id="saleOrdersPrice" formControlName="saleOrdersPrice" mode="currency" [currency]="productForm.get('currency')?.value || 'EUR'" />
+    </div>
+    <div class="col-lg-3 col-md-6 col-sm-12 mb-3">
+        <label class="block font-bold mb-2" for="quantity">Quantità</label>
+        <p-inputnumber class="w-100" id="quantity" formControlName="quantity" [min]="!haveOrder ? totalQuantityBackup : residue"></p-inputnumber>
+    </div>
+
+    <div class="col-lg-3 col-md-6 col-sm-12 mb-3">
+        <label class="block font-bold mb-2" for="totalQuantity">Quantità residua</label>
+        <p-inputnumber class="w-100" id="totalQuantity" formControlName="totalQuantity" [readonly]="true" [disabled]="true" ></p-inputnumber>
+    </div>
+    <div class="col-lg-3 col-md-6 col-sm-12 mb-3 text-center">
+        <label class="block font-bold mb-2" for="isSold">Venduto</label>
+        <p-toggleSwitch id="isSold" formControlName="isSold" onLabel="Sì" offLabel="No" readonly="true"></p-toggleSwitch>
+    </div>
+    <div class="col-lg-3 col-md-6 col-sm-12 mb-3">
+        <label class="block font-bold mb-2" for="createdAt">Creato il</label>
+        <p-datepicker class="w-100" id="createdAt" formControlName="createdAt" [showTime]="true" hourFormat="24" dateFormat="dd/mm/yy" [showIcon]="true" ></p-datepicker>
+    </div>
+    <div class="col-lg-3 col-md-6 col-sm-12 mb-3">
+        <label class="block font-bold mb-2" for="modifiedAt">Modificato il</label>
+        <p-datepicker class="w-100" id="modifiedAt" formControlName="modifiedAt" [showTime]="true" hourFormat="24" dateFormat="dd/mm/yy" [showIcon]="true" ></p-datepicker>
+    </div>
+    
+</form>
+
+<p-toolbar>
+    <ng-template pTemplate="start">
+        <p-button label="Indietro" (onClick)="onGoBack()" severity="info" icon="pi pi-arrow-left"></p-button>
+    </ng-template>
+    <ng-template pTemplate="center">
+        <p-button label="{{ isEditProduct ? 'Modifica' : 'Crea' }} prodotto"
+                [disabled]="productForm.invalid"
+                (onClick)="onSaveProduct()"
+                icon="pi pi-save">
+        </p-button>
+    </ng-template>
+    <ng-template pTemplate="end">
+        <p-button 
+                label="{{ isLargeScreen ? 'Elimina prodotto' : 'Elimina' }}"
+                [disabled]="!isEditProduct"
+                (onClick)="onDeleteProduct($event)"
+                severity="danger"
+                icon="pi pi-trash">
+        </p-button>
+    </ng-template>
+</p-toolbar>

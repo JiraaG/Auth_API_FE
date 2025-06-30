@@ -1,0 +1,14 @@
+.my-treeselect .p-treeselect {
+  width: 100%;
+}
+.my-treeselect .p-treeselect-label {
+  width: 100%;
+}
+
+::ng-deep .p-treeselect {
+  width: 100% !important;
+}
+
+::ng-deep .p-treeselect-label {
+  width: 100% !important;
+}
